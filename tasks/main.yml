@@ -1,3 +1,16 @@
+- name: Load platform package names
+  include_vars: "{{ item }}"
+  with_first_found:
+    - "../vars/{{ ansible_distribution }}-{{ ansible_distribution_major_version }}.yml"
+    - "../vars/{{ ansible_distribution }}.yml"
+- name: Install Java
+  package:
+    name: "{{ java_package }}"
+    state: present
+- name: Install unzip
+  package:
+    name: "{{ unzip_package }}"
+    state: present
 - name: Validate that we're running on hyperfoil_controller
   when: inventory_hostname not in groups[hyperfoil_controller_group]
   fail:
